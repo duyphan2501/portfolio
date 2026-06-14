@@ -26,10 +26,9 @@ export function Reveal({
 }: RevealProps) {
   return (
     <motion.div
-      className={`transform-gpu ${className ?? ""}`}
+      className={className}
       id={id}
       initial={{ opacity: 0, ...hiddenPosition[direction] }}
-      style={{ willChange: "opacity, transform" }}
       transition={{
         duration: 0.8,
         ease: [0.22, 1, 0.36, 1],

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { MotionProvider } from "@/components/effects/motion-provider";
+import { SiteEffects } from "@/components/effects/site-effects";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -56,7 +59,12 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <MotionProvider>
+          <SiteEffects />
+          {children}
+        </MotionProvider>
+      </body>
     </html>
   );
 }

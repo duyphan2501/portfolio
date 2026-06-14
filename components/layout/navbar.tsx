@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -12,6 +13,13 @@ const links = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (value) => {
+    setScrolled(value > 50);
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -24,8 +32,35 @@ export function Navbar() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
+  useEffect(() => {
+    const sections = links
+      .map((link) => document.getElementById(link.href.split("#")[1]))
+      .filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveSection(visible.target.id);
+      },
+      { rootMargin: "-20% 0px -65% 0px", threshold: [0, 0.2, 0.5] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-xl">
+    <motion.header
+      animate={{
+        backgroundColor: scrolled ? "rgb(8 12 20 / 0.88)" : "rgb(8 12 20 / 0.5)",
+        borderColor: scrolled ? "rgb(40 53 72 / 0.7)" : "rgb(40 53 72 / 0.25)",
+      }}
+      className="fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl"
+      transition={{ duration: 0.25 }}
+    >
       <nav
         aria-label="Primary navigation"
         className="page-shell flex h-18 items-center justify-between"
@@ -37,11 +72,20 @@ export function Navbar() {
         <div className="hidden items-center gap-7 md:flex">
           {links.map((link) => (
             <Link
-              className="text-sm text-muted transition-colors hover:text-foreground"
+              className={`relative py-2 text-sm transition-colors hover:text-foreground ${
+                activeSection === link.href.split("#")[1]
+                  ? "text-foreground"
+                  : "text-muted"
+              }`}
+              data-cursor="hover"
               href={link.href}
               key={link.href}
             >
               {link.label}
+              <motion.span
+                animate={{ scaleX: activeSection === link.href.split("#")[1] ? 1 : 0 }}
+                className="absolute inset-x-0 bottom-0 h-px origin-left bg-accent"
+              />
             </Link>
           ))}
           <a
@@ -65,10 +109,15 @@ export function Navbar() {
         </button>
       </nav>
 
-      {open ? (
-        <div
+      <AnimatePresence>
+        {open ? (
+        <motion.div
+          animate={{ opacity: 1, y: 0 }}
           className="border-t border-border bg-background px-4 py-5 md:hidden"
+          exit={{ opacity: 0, y: -16 }}
           id="mobile-menu"
+          initial={{ opacity: 0, y: -16 }}
+          transition={{ duration: 0.2 }}
         >
           <div className="page-shell flex flex-col gap-1">
             {links.map((link) => (
@@ -89,8 +138,9 @@ export function Navbar() {
               Request resume
             </a>
           </div>
-        </div>
-      ) : null}
-    </header>
+        </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </motion.header>
   );
 }

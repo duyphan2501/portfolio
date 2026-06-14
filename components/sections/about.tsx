@@ -1,8 +1,10 @@
+import { AnimatedCounter } from "@/components/effects/animated-counter";
+
 const facts = [
-  ["3", "Substantial projects"],
-  ["8.66", "GPA out of 10"],
-  ["755", "TOEIC L&R"],
-  ["2023", "TDTU start year"],
+  [3, 0, "Substantial projects"],
+  [8.66, 2, "GPA out of 10"],
+  [755, 0, "TOEIC L&R"],
+  [4, 0, "Tech stacks"],
 ];
 
 const principles = [
@@ -47,11 +49,14 @@ export function About() {
 
           <div>
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border">
-              {facts.map(([value, label]) => (
+              {facts.map(([value, decimals, label]) => (
                 <div className="bg-surface p-6 sm:p-8" key={label}>
                   <dt className="text-sm text-muted">{label}</dt>
                   <dd className="mt-2 font-mono text-3xl font-semibold text-accent">
-                    {value}
+                    <AnimatedCounter
+                      decimals={decimals as number}
+                      value={value as number}
+                    />
                   </dd>
                 </div>
               ))}

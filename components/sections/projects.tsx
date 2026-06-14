@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ParallaxLabel } from "@/components/effects/parallax-label";
 import { projects, type Project } from "@/data/projects";
 
 function ProjectDetails({ project }: { project: Project }) {
@@ -90,8 +91,9 @@ export function Projects() {
   const [featured, ...supporting] = projects;
 
   return (
-    <section className="section-rule py-24 sm:py-32">
-      <div className="page-shell">
+    <section className="section-rule relative overflow-hidden py-24 sm:py-32">
+      <ParallaxLabel text="PROJECTS" />
+      <div className="page-shell relative">
         <p className="section-kicker">Selected work</p>
         <h2 className="section-title mt-6 text-balance">
           Systems built around difficult constraints.

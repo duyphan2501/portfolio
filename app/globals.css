@@ -58,6 +58,19 @@ summary {
   color: var(--foreground);
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgb(57 198 179 / 0.34);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
