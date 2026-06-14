@@ -41,7 +41,7 @@ export const projects: Project[] = [
       "A production-minded commerce platform with atomic inventory reservation for high-concurrency checkout.",
     outcome:
       "Redis Lua scripts turn stock checks and mutations into one uninterruptible operation, preventing oversells without database-level contention.",
-    tags: ["React", "Node.js", "MongoDB", "Redis", "Lua"],
+    tags: ["React", "Express.js", "MongoDB", "Redis", "Lua", "PayOS"],
     highlights: [
       {
         title: "Atomic inventory lifecycle",
@@ -126,6 +126,117 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "fashion-ecommerce",
+    title: "Fashion Ecommerce Platform",
+    period: "Jul - Sep 2025",
+    context: "Team of 3",
+    summary:
+      "A full-stack fashion storefront and administration platform with transactional checkout, Redis-backed carts, and PayOS payments.",
+    outcome:
+      "MongoDB transactions coordinate stock, coupons, loyalty points, and orders, while Redis keeps carts fast and moves confirmation email work off the checkout path.",
+    tags: ["React", "Express.js", "MongoDB", "Redis", "PayOS", "Docker"],
+    highlights: [
+      {
+        title: "Transactional checkout",
+        body:
+          "Conditional MongoDB updates deduct variant stock only when enough inventory remains. The order, coupon usage, loyalty points, and stock changes share a replica-set transaction so partial checkout state can be rolled back.",
+      },
+      {
+        title: "Redis cart lifecycle",
+        body:
+          "Guest and authenticated carts use Redis hashes with separate product and quantity data, four- or seven-day TTLs, pipelined writes, login-time merging, and database validation when catalog data changes.",
+      },
+      {
+        title: "Payment and async events",
+        body:
+          "PayOS orders remain drafts until a verified webhook succeeds. Repeated paid webhooks return early, and Redis Pub/Sub dispatches order confirmation email without extending the checkout response.",
+      },
+    ],
+    github: "https://github.com/duyphan2501/fashion_ecommerce_platform",
+    liveDemo: "https://fashion-ecommerce-platform-bice.vercel.app/",
+    caseStudy: {
+      role: "Full-stack Developer, Team of 3",
+      goalHeading: "Keep checkout consistent across every subsystem.",
+      processHeading: "Built the purchase path as one coordinated workflow.",
+      resultsHeading: "A complete commerce platform with operational tooling.",
+      repositorySummary:
+        "The repository includes the Vite storefront, administration application, Express API behind Nginx, MongoDB replica set, Redis service, and Docker Compose environment.",
+      background:
+        "A fashion checkout touches size-level inventory, coupons, loyalty points, payment state, customer email, and order history. Updating those concerns independently can leave stock deducted without an order, reuse a limited coupon, or process the same payment callback twice.",
+      purpose:
+        "Deliver a customer storefront and an administration console while making the checkout path resilient enough to keep inventory and promotional state consistent for both cash-on-delivery and online payments.",
+      process: [
+        {
+          title: "Separated customer and operational surfaces",
+          body:
+            "The team built independent React applications for customers and administrators. The storefront covers discovery, variants, cart, checkout, accounts, addresses, reviews, and order tracking; the admin app manages products, categories, coupons, users, orders, rich content, and sales dashboards.",
+        },
+        {
+          title: "Modeled stock at variant and size level",
+          body:
+            "Each product variant owns size attributes with independent stock counts. Checkout uses a conditional findOneAndUpdate with an inStock greater-than-or-equal guard, so competing requests cannot push a size below zero.",
+        },
+        {
+          title: "Coordinated checkout with MongoDB transactions",
+          body:
+            "A three-Express MongoDB replica set enables sessions and transactions. Cash-on-delivery checkout deducts stock, consumes coupons and points, and creates the order in one transaction; cancellation restores inventory and promotional state through the same transactional boundary.",
+        },
+        {
+          title: "Kept carts fast without trusting stale data",
+          body:
+            "Redis stores cart item snapshots and quantities in separate hashes with TTL renewal and pipelined mutations. Cart reads compare cached price, discount, stock, variants, and sizes against MongoDB, then rewrite Redis when catalog data has changed.",
+        },
+        {
+          title: "Handled guest and authenticated cart identity",
+          body:
+            "Guest carts receive an HTTP-only cookie identifier and expire after four days. Authenticated carts use a seven-day TTL, and login merges guest quantities into the user cart before deleting the guest keys.",
+        },
+        {
+          title: "Finalized online payments from verified events",
+          body:
+            "PayOS checkout creates a draft order and a time-limited payment link. The webhook is verified with the provider SDK, ignores an already-paid order, and transactionally applies stock, coupon, point, payment, and status changes only after a successful payment event.",
+        },
+        {
+          title: "Moved confirmation email off the request path",
+          body:
+            "After an order is committed, the API publishes an order event to Redis. A dedicated subscriber connection receives the event and sends the confirmation email, keeping Pub/Sub mode isolated from normal Redis commands.",
+        },
+      ],
+      results: [
+        {
+          title: "Race-resistant size inventory",
+          body:
+            "A conditional atomic update rejects checkout when the selected size no longer has enough stock, and the transaction prevents surrounding order state from committing after that failure.",
+        },
+        {
+          title: "Consistent promotional state",
+          body:
+            "Limited coupons and loyalty points are consumed with the order and restored on cancellation, reducing the partial-update cases that commonly appear when checkout concerns are handled separately.",
+        },
+        {
+          title: "Responsive cart experience",
+          body:
+            "Redis pipelines, TTL renewal, guest-cart merging, and catalog reconciliation provide fast cart interactions while still correcting stale prices, discounts, sizes, and stock.",
+        },
+        {
+          title: "Idempotent payment completion",
+          body:
+            "Verified PayOS callbacks promote draft orders only once, then publish confirmation work after the payment state and inventory changes have committed.",
+        },
+        {
+          title: "Reproducible multi-service environment",
+          body:
+            "Docker Compose starts the storefront, admin app, API behind Nginx, Redis, ngrok webhook tunnel, and MongoDB replica set with seeded data on one shared network.",
+        },
+        {
+          title: "End-to-end commerce operations",
+          body:
+            "The delivered platform covers authentication, product variants, reviews, cart and checkout, COD and PayOS payments, order tracking, inventory administration, coupons, customer management, and revenue reporting.",
+        },
+      ],
+    },
+  },
+  {
     id: "social",
     title: "Mini Social Network",
     period: "Nov 2025",
@@ -134,7 +245,7 @@ export const projects: Project[] = [
       "A service-oriented social platform using RabbitMQ to decouple work, RPC requests, and real-time events.",
     outcome:
       "A single gateway coordinates HTTP and Socket.IO traffic while RabbitMQ messaging and database ownership keep five business domains independent.",
-    tags: ["React", "Node.js", "MySQL", "RabbitMQ", "Socket.IO", "Docker"],
+    tags: ["React", "Express.js", "MySQL", "RabbitMQ", "Socket.IO", "Docker"],
     highlights: [
       {
         title: "Three messaging patterns",
@@ -225,7 +336,7 @@ export const projects: Project[] = [
       "A horizontally scalable chat and WebRTC calling platform backed by distributed Redis state.",
     outcome:
       "Dedicated Redis adapter clients synchronize Socket.IO instances, while queued ICE candidates, multi-tab presence, and atomic call locks handle difficult timing failures.",
-    tags: ["Next.js 16", "MongoDB", "Redis", "WebRTC", "Socket.IO"],
+    tags: ["Next.js 16", "Express.js", "MongoDB", "Redis", "WebRTC", "Socket.IO"],
     highlights: [
       {
         title: "Horizontal Socket.IO scaling",

@@ -89,7 +89,7 @@ function ProjectActions({ project }: { project: Project }) {
 
 export function Projects() {
   const [featured, ...supporting] = projects;
-
+  const length = supporting.length;
   return (
     <section className="section-rule relative overflow-hidden py-24 sm:py-32">
       <ParallaxLabel text="PROJECTS" />
@@ -128,9 +128,9 @@ export function Projects() {
         </article>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
-          {supporting.map((project) => (
+          {supporting.map((project, index) => (
             <article
-              className="rounded-2xl border border-border bg-surface p-7 sm:p-8"
+              className={`rounded-2xl border border-border bg-surface p-7 sm:p-8 ${length - 1 !== index && length % 2 !== 0 ? "lg:col-span-1" : "lg:col-span-2"}`}
               key={project.id}
             >
               <div className="flex flex-wrap items-start justify-between gap-4">

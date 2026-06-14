@@ -1,7 +1,7 @@
 import { AnimatedCounter } from "@/components/effects/animated-counter";
 
 const facts = [
-  [3, 0, "Substantial projects"],
+  [4, 0, "Substantial projects"],
   [8.66, 2, "GPA out of 10"],
   [755, 0, "TOEIC L&R"],
   [4, 0, "Tech stacks"],
