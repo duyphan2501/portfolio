@@ -90,7 +90,7 @@ export function Navbar() {
           ))}
           <a
             className="rounded-full border border-accent/45 px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-[#041412]"
-            href="https://drive.google.com/file/d/1NWMuecpu0fJ-wzidevoXUplRZkfGg1WB/view?usp=drive_link"
+            href="https://drive.google.com/file/d/1wkFSFxJ3psHeXtCRfuXPZYJ5jiA5sWW3/view?usp=sharing"
             target="_blank"
           >
             Request resume

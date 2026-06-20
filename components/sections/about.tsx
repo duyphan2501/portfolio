@@ -4,24 +4,21 @@ const facts = [
   [4, 0, "Substantial projects"],
   [8.66, 2, "GPA out of 10"],
   [755, 0, "TOEIC L&R"],
-  [4, 0, "Tech stacks"],
+  [290, 0, "TOEIC S&W"],
 ];
 
 const principles = [
   {
-    title: "Understand the mechanism",
-    body:
-      "I want to know why Redis Lua is atomic, why pub/sub needs dedicated clients, and where a system fails under pressure.",
+    title: "Deep-dive mechanics",
+    body: "I don't just use tools. I dissect why Redis Lua scripts guarantee atomicity, how the pub/sub topography impacts client memory, and where bottlenecks form under high-concurrency pressure.",
   },
   {
-    title: "Design for failure",
-    body:
-      "Race conditions, duplicate webhooks, dropped ICE candidates, and reconnecting clients are product behavior, not optional cleanup.",
+    title: "Fault-tolerant design",
+    body: "Network boundaries are chaotic. Handling race conditions, idempotent webhooks, dropped WebRTC/ICE connections, and exponential backoff retries is core product behavior, not an afterthought.",
   },
   {
-    title: "Explain the trade-off",
-    body:
-      "I can discuss cursor versus offset pagination, Pub/Sub versus Streams, and normalization versus denormalization in context.",
+    title: "Data & Architectural Trade-offs",
+    body: "There is no 'best' solution. I evaluate system design through trade-offs: cursor vs offset pagination, Pub/Sub vs Log Streams, and strict normalization vs strategic denormalization.",
   },
 ];
 
@@ -33,17 +30,18 @@ export function About() {
         <div className="mt-6 grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
           <div>
             <h2 className="section-title text-balance">
-              I work past the happy path.
+              Engineering beyond the happy path.
             </h2>
             <p className="mt-8 max-w-[35rem] text-lg leading-8 text-muted">
               I am a final-year Software Engineering student at Ton Duc Thang
-              University. My work centers on full-stack systems where timing,
-              state, and network boundaries create the hardest problems.
+              University. My engineering focus centers on high-throughput
+              backend services and distributed full-stack systems where state
+              stability and network boundaries present critical challenges.
             </p>
-            <p className="mt-5 max-w-[35rem] leading-7 text-muted">
-              I am looking for a full-time Fullstack Engineer Intern role where
-              I can contribute to production systems and keep sharpening my
-              system design judgment.
+            <p className="mt-5 max-w-[35rem] leading-7 text-slate-300">
+              Seeking a **Full-time Fullstack / Software Engineer Intern** role.
+              Ready to own features in production, debug complex distributed
+              flows, and continuously refine my system architecture judgment.
             </p>
           </div>
 
@@ -64,7 +62,10 @@ export function About() {
 
             <div className="mt-8 space-y-6">
               {principles.map((principle) => (
-                <div className="grid gap-2 sm:grid-cols-[12rem_1fr]" key={principle.title}>
+                <div
+                  className="grid gap-2 sm:grid-cols-[12rem_1fr]"
+                  key={principle.title}
+                >
                   <h3 className="font-mono text-sm text-foreground">
                     {principle.title}
                   </h3>

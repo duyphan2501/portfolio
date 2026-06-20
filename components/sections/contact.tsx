@@ -28,8 +28,7 @@ export function Contact() {
             Let&apos;s build systems that hold up under pressure.
           </h2>
           <p className="mt-7 max-w-[40rem] text-lg leading-8 text-[#0a3b36]">
-            I am seeking a full-time Fullstack Engineer Intern role and would
-            be glad to walk through any project line by line.
+            Looking for a dedicated Intern to contribute to your production-ready projects? Drop me a message—I'd love to chat about how I can add value to your team.
           </p>
 
           <div className="mt-10 grid gap-px overflow-hidden rounded-2xl bg-[#0a3b36]/30 md:grid-cols-3">

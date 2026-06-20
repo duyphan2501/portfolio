@@ -88,7 +88,7 @@ export function Skills() {
             </p>
             <p className="mt-4 max-w-[48rem] leading-7 text-muted">
               GPA 8.66/10. TOEIC Listening and Reading 755, Speaking and Writing
-              290.
+              290.  
             </p>
           </div>
         </div>

@@ -12,6 +12,16 @@ export type Project = {
   }>;
   github: string;
   liveDemo?: string;
+  demoImages?: {
+    desktop?: {
+      src?: string;
+      alt: string;
+    };
+    mobile?: {
+      src?: string;
+      alt: string;
+    };
+  };
   caseStudy?: {
     role: string;
     goalHeading: string;
@@ -63,6 +73,16 @@ export const projects: Project[] = [
       "https://github.com/duyphan2501/mern-ecommerce-electronic-devices",
     liveDemo:
       "https://mern-ecommerce-electronic-devices.vercel.app/",
+    demoImages: {
+      desktop: {
+        src: "/images/electronic1.PNG",
+        alt: "Electronic Devices Ecommerce desktop demo screenshot",
+      },
+      mobile: {
+        src: "/images/electronic2.PNG",
+        alt: "Electronic Devices Ecommerce mobile demo screenshot",
+      },
+    },
     caseStudy: {
       role: "Solo Full-stack Developer",
       goalHeading: "Make stock trustworthy.",
@@ -144,7 +164,7 @@ export const projects: Project[] = [
       {
         title: "Redis cart lifecycle",
         body:
-          "Guest and authenticated carts use Redis hashes with separate product and quantity data, four- or seven-day TTLs, pipelined writes, login-time merging, and database validation when catalog data changes.",
+          "Guest and authenticated carts use Redis hashes quantity for each item, four- or seven-day TTLs, pipelined writes, login-time merging, and database validation when catalog data changes.",
       },
       {
         title: "Payment and async events",
@@ -154,6 +174,16 @@ export const projects: Project[] = [
     ],
     github: "https://github.com/duyphan2501/fashion_ecommerce_platform",
     liveDemo: "https://fashion-ecommerce-platform-bice.vercel.app/",
+    demoImages: {
+      desktop: {
+        alt: "Fashion Ecommerce Platform desktop demo screenshot",
+        src: "/images/fash1.PNG",
+      },
+      mobile: {
+        alt: "Fashion Ecommerce Platform mobile demo screenshot",
+        src: "/images/fash2.PNG",
+      },
+    },
     caseStudy: {
       role: "Full-stack Developer, Team of 3",
       goalHeading: "Keep checkout consistent across every subsystem.",
@@ -184,7 +214,7 @@ export const projects: Project[] = [
         {
           title: "Kept carts fast without trusting stale data",
           body:
-            "Redis stores cart item snapshots and quantities in separate hashes with TTL renewal and pipelined mutations. Cart reads compare cached price, discount, stock, variants, and sizes against MongoDB, then rewrite Redis when catalog data has changed.",
+            "Redis stores only (variantId:size → quantity) per cart; on load, a batch hydration fetches variant and product data in 2 parallel queries, self-healing the cache by dropping items whose variants no longer exist in MongoDB.",
         },
         {
           title: "Handled guest and authenticated cart identity",
@@ -265,6 +295,16 @@ export const projects: Project[] = [
     ],
     github: "https://github.com/duyphan2501/microservice_social_network",
     liveDemo: "http://ec2-18-141-142-75.ap-southeast-1.compute.amazonaws.com/",
+    demoImages: {
+      desktop: {
+        src: "/images/social2.PNG",
+        alt: "Mini Social Network desktop demo screenshot",
+      },
+      mobile: {
+        src: "/images/social1.PNG",
+        alt: "Mini Social Network mobile demo screenshot",
+      },
+    },
     caseStudy: {
       role: "Full-stack Developer, Team of 3",
       goalHeading: "Keep domains independent and updates immediate.",
@@ -358,6 +398,16 @@ export const projects: Project[] = [
       "https://github.com/duyphan2501/realtime-chat-video-call-platform",
     liveDemo:
       "https://realtime-chat-video-call-platform.vercel.app/",
+    demoImages: {
+      desktop: {
+        src: "/images/chat1.PNG",
+        alt: "Realtime Chat and Video Call desktop demo screenshot",
+      },
+      mobile: {
+        src: "/images/chat2.PNG",
+        alt: "Realtime Chat and Video Call mobile demo screenshot",
+      },
+    },
     caseStudy: {
       role: "Full-stack Developer, Team of 2",
       goalHeading: "Keep calls reliable when timing becomes unpredictable.",

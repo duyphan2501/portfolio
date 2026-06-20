@@ -37,7 +37,7 @@ export function Footer() {
     <footer className="border-t border-border py-8">
       <div className="page-shell flex flex-col gap-5 text-sm sm:flex-row sm:items-center sm:justify-between">
         <p className="text-center text-muted sm:text-left">
-          Phan Nhut Duy, Fullstack Engineer.
+          Phan Nhut Duy, Software Engineer.
         </p>
 
         <nav aria-label="Contact links">

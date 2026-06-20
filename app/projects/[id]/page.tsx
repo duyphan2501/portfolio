@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
-import { projects } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>;
 };
+
+type DemoImage = NonNullable<Project["demoImages"]>["desktop"];
 
 export const dynamicParams = false;
 
@@ -16,6 +19,108 @@ export function generateStaticParams() {
   return projects
     .filter((project) => project.caseStudy)
     .map((project) => ({ id: project.id }));
+}
+
+function DemoFrame({
+  image,
+  label,
+  variant,
+}: {
+  image?: DemoImage;
+  label: string;
+  variant: "desktop" | "mobile";
+}) {
+  const isDesktop = variant === "desktop";
+
+  return (
+    <figure
+      className={
+        isDesktop
+          ? "rounded-2xl border border-border bg-background/80 p-3 shadow-2xl shadow-black/30"
+          : "mx-auto w-full max-w-64 rounded-[2rem] border border-border bg-background/80 p-3 shadow-2xl shadow-black/30"
+      }
+    >
+      <div
+        className={
+          isDesktop
+            ? "aspect-[16/10] overflow-hidden rounded-xl bg-surface-raised"
+            : "aspect-[9/19] overflow-hidden rounded-[1.45rem] bg-surface-raised"
+        }
+      >
+        {image?.src ? (
+          <Image
+            alt={image.alt}
+            loading="eager"
+            className="h-full w-full object-center"
+            height={isDesktop ? 900 : 844}
+            src={image.src}
+            width={isDesktop ? 1440 : 390}
+          />
+        ) : (
+          <div className="flex h-full flex-col justify-between bg-[linear-gradient(135deg,rgb(57_198_179/0.16),rgb(16_23_34/0.15)_38%,rgb(8_12_20/0.95))] p-5">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-accent/80" />
+              <span className="h-2.5 w-2.5 rounded-full bg-foreground/18" />
+              <span className="h-2.5 w-2.5 rounded-full bg-foreground/18" />
+            </div>
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-accent">
+                {label}
+              </p>
+              <p className="mt-3 max-w-[22ch] text-lg font-semibold leading-tight tracking-[-0.035em] text-foreground">
+                Add screenshot in project data
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <span className="h-3 rounded-full bg-foreground/12" />
+              <span className="h-3 w-3/4 rounded-full bg-foreground/12" />
+            </div>
+          </div>
+        )}
+      </div>
+      <figcaption className="mt-3 font-mono text-xs text-muted">
+        {label}
+      </figcaption>
+    </figure>
+  );
+}
+
+function DemoImagesSection({ project }: { project: Project }) {
+  return (
+    <section
+      aria-labelledby="demo-images-title"
+      className="deferred-section border-b border-border bg-surface py-20 sm:py-28"
+    >
+      <div className="page-shell">
+        <div className="max-w-3xl">
+          <p className="section-kicker">Demo images</p>
+          <h2
+            className="mt-5  text-4xl font-semibold leading-none tracking-[-0.05em] sm:text-5xl"
+            id="demo-images-title"
+          >
+            Desktop and mobile preview.
+          </h2>
+          <p className="mt-5 max-w-[62ch] leading-7 text-muted">
+            A quick look at the real interface across large screens and
+            phone-sized browsing.
+          </p>
+        </div>
+
+        <div className="mt-14 grid items-end gap-6 lg:grid-cols-[1fr_18rem]">
+          <DemoFrame
+            image={project.demoImages?.desktop}
+            label=""
+            variant="desktop"
+          />
+          <DemoFrame
+            image={project.demoImages?.mobile}
+            label=""
+            variant="mobile"
+          />
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export async function generateMetadata({
@@ -128,6 +233,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </header>
 
+        <DemoImagesSection project={project} />
+
         <section
           className="deferred-section py-20 sm:py-28"
           aria-labelledby="goals-title"
@@ -168,7 +275,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div className="page-shell">
             <p className="section-kicker">Process &amp; solution</p>
             <h2
-              className="mt-5 max-w-[13ch] text-4xl font-semibold leading-none tracking-[-0.05em] sm:text-5xl"
+              className="mt-5 max-w-[50vw] text-4xl font-semibold leading-none tracking-[-0.05em] sm:text-5xl"
               id="process-title"
             >
               {caseStudy.processHeading}

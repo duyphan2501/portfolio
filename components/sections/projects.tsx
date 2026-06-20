@@ -21,7 +21,7 @@ function ProjectDetails({ project }: { project: Project }) {
             <h4 className="font-mono text-sm text-foreground">
               {highlight.title}
             </h4>
-            <p className="mt-2 max-w-[65ch] text-sm leading-6 text-muted">
+            <p className="mt-2 text-sm leading-6 text-muted">
               {highlight.body}
             </p>
           </div>

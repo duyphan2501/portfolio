@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-function TerminalText({ text, speed = 65 }: { text: string; speed?: number }) {
+function TerminalText({ text, speed = 120 }: { text: string; speed?: number }) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
@@ -26,7 +26,7 @@ function TerminalText({ text, speed = 65 }: { text: string; speed?: number }) {
 
   useEffect(() => {
     if (!done) return;
-    const timeout = window.setTimeout(() => setShowCursor(false), 2000);
+    const timeout = window.setTimeout(() => setShowCursor(false), 1000);
     return () => window.clearTimeout(timeout);
   }, [done]);
 
@@ -66,7 +66,7 @@ export function Hero() {
           variants={container}
         >
           <motion.p className="section-kicker mb-5" variants={item}>
-            Fullstack Engineer Intern
+            Software Engineer
           </motion.p>
           <motion.h1
             className="text-balance max-w-[12ch] text-[clamp(3.6rem,8vw,7.5rem)] font-semibold leading-[0.88] tracking-[-0.075em]"
@@ -76,11 +76,10 @@ export function Hero() {
             <span className="text-accent">Duy</span>
           </motion.h1>
           <motion.p
-            className="mt-7 max-w-[34rem] text-balance text-lg leading-8 text-muted sm:text-xl"
+            className="mt-7 max-w-[34rem] text-balance italic text-lg leading-8 text-muted "
             variants={item}
           >
-            I build reliable web systems for concurrency, distributed state, and
-            real-time communication.
+            I am a software engineer with a focus on building scalable and efficient web applications. I enjoy working on projects that challenge me to learn new technologies and improve my skills.
           </motion.p>
           <motion.div
             className="mt-9 flex flex-col gap-3 sm:flex-row"
